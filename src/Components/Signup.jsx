@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 const Signup = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       name: '',
       email: '',
@@ -13,6 +13,8 @@ const Signup = () => {
       profession: 'select one'
     }
   });
+  const password = watch('password');
+
   const navigate = useNavigate();
   // console.log(errors);
   return (
@@ -20,38 +22,47 @@ const Signup = () => {
       <div className='Login-wrapper w-xl mx-auto my-7 p-7 bg-amber-900 rounded-md'>
         <form onSubmit={handleSubmit((data) => {
           sessionStorage.setItem('Signupdata', JSON.stringify(data))
-          setTimeout(()=>{
+          setTimeout(() => {
             navigate('/login');
           }, 1000)
           console.log("Account created successfully")
         })}>
           <h3 className='mb-3 text-2xl font-bold text-center'>Register</h3>
           <div className="form-fields mb-3">
-            <label htmlFor='name' className='text-sm mb-1 inline-block'>Name</label>
-            <input type="text" name="name" placeholder='Enter your name' id='name' className='w-full border border-solid border-gray-500 text-sm p-2 rounded-sm'
-              {...register('name', { required: 'Name is required', pattern:{value:/^[A-Za-z ]+$/,message:'Name should contain only letters'} })} />
-            <span className='block text-sm text-yellow-400 pt-1'>{errors.name?.message}</span>
+            <label htmlFor='name' className='inputLabel'>Name</label>
+            <input type="text" name="name" placeholder='Enter your name' id='name' className='inputField'
+              {...register('name', { required: 'Name is required', pattern: { value: /^[A-Za-z ]+$/, message: 'Name should contain only letters' } })} />
+            <span className='inputErrorMessage'>{errors.name?.message}</span>
           </div>
           <div className='form-fields mb-3'>
-            <label htmlFor='email' className='text-sm mb-1 inline-block'>Email</label>
-            <input type="email" name="email" placeholder='Enter your email id' id='email' className='w-full border border-solid border-gray-500 text-sm p-2 rounded-sm'
-              {...register('email', { required: 'Email is required',pattern:{value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,message:'Please provide valid email'} })} />
-            <span className='block text-sm text-yellow-400 pt-1'>{errors.email?.message}</span>
+            <label htmlFor='email' className='inputLabel'>Email</label>
+            <input type="email" name="email" placeholder='Enter your email id' id='email' className='inputField'
+              {...register('email', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Please provide valid email' } })} />
+            <span className='inputErrorMessage'>{errors.email?.message}</span>
           </div>
           <div className='form-fields mb-3'>
-            <label htmlFor='password' className='text-sm mb-1 inline-block'>Password</label>
-            <input type="text" name="password" placeholder='Enter your password' id='password' className='w-full border border-solid border-gray-500 text-sm p-2 rounded-sm'
-              {...register('password', { required: 'Password is required', minLength: { value: 8, message: 'Password must be 8 characters long' },pattern:{value:/^(?=.*\d).{8,}$/,message:'Password must be 8 characters long',}  })} />
-            <span className='block text-sm text-yellow-400 pt-1'>{errors.password?.message}</span>
+            <label htmlFor='password' className='inputLabel'>Password</label>
+            <input type="text" name="password" placeholder='Enter your password' id='password' className='inputField'
+              {...register('password', { required: 'Password is required', minLength: { value: 8, message: 'Password must be 8 characters long' }, pattern: { value: /^(?=.*\d).{8,}$/, message: 'Password must be 8 characters long', } })} />
+            <span className='inputErrorMessage'>{errors.password?.message}</span>
           </div>
           <div className='form-fields mb-3'>
-            <label htmlFor='Cpassword' className='text-sm mb-1 inline-block'>Confirm Password</label>
-            <input type="text" name="Cpassword" placeholder='Confirm your password' id='Cpassword' className='w-full border border-solid border-gray-500 text-sm p-2 rounded-sm'
-              {...register('Cpassword', { required: 'Password is required', minLength: { value: 8, message: 'Password must be 8 characters long' },pattern:{value:/^(?=.*\d).{8,}$/,message:'Password must be 8 characters long',}  })} />
-            <span className='block text-sm text-yellow-400 pt-1'>{errors.password?.message}</span>
+            <label htmlFor='Cpassword' className='inputLabel'>Confirm Password</label>
+            <input type="text" name="Cpassword" placeholder='Confirm your password' id='Cpassword' className='inputField'
+              {...register('Cpassword', {
+                required: 'Password is required',
+                validate: (value) =>
+                  value === password || "Passwords do not match",
+                minLength: { value: 8, message: 'Password must be 8 characters long' },
+                pattern: {
+                  value: /^(?=.*\d).{8,}$/,
+                  message: 'Password must be 8 characters long',
+                }
+              })} />
+            <span className='inputErrorMessage'>{errors.Cpassword?.message}</span>
           </div>
           <div className='form-fields mb-3'>
-            <label className='text-sm mb-1 inline-block'>Gender</label>
+            <label className='inputLabel'>Gender</label>
             <div className='flex items-center gap-3'>
               <label htmlFor="genderM">
                 <input
@@ -74,13 +85,13 @@ const Signup = () => {
                 /> Female
               </label>
             </div>
-            <span className='block text-sm text-yellow-400 pt-1'>
+            <span className='inputErrorMessage'>
               {errors.gender?.message}
             </span>
           </div>
           <div className='form-fields mb-3'>
-            <label htmlFor='prefession' className='text-sm mb-1 inline-block'>Working Professional</label>
-            <select name="profession" id="profession" className='w-full border border-solid border-gray-500 text-sm p-2 rounded-sm'
+            <label htmlFor='prefession' className='inputLabel'>Working Professional</label>
+            <select name="profession" id="profession" className='inputField'
               {...register('profession', {
                 required: 'Profession is required',
                 validate: (value) =>
@@ -90,9 +101,9 @@ const Signup = () => {
               <option value="Yes" className='text-black'>Yes</option>
               <option value="No" className='text-black'>No</option>
             </select>
-            <span className='block text-sm text-yellow-400 pt-1'>{errors.profession?.message}</span>
+            <span className='inputErrorMessage'>{errors.profession?.message}</span>
           </div>
-          <button type="submit" className='w-full cursor-pointer mb-4 bg-green-500 p-2 rounded-sm text-stone-950'>Submit</button>
+          <button type="submit" className='inputSubmitBtn'>Submit</button>
           <Link to='/login' className='block text-sm text-center'> <i className="ri-arrow-left-line"></i> Back to login</Link>
         </form>
       </div >

@@ -55,3 +55,21 @@ ul,li,ol{
 .w-40 {
   width: 2.5rem;
 }
+
+/* Tailwind input class starts */
+.inputLabel{
+  @apply text-sm mb-1 inline-block
+}
+
+.inputField{
+  @apply w-full border border-solid border-gray-500 text-sm p-2 rounded-sm;
+}
+
+.inputSubmitBtn{
+  @apply w-full cursor-pointer mb-4 bg-green-500 p-2 rounded-sm text-stone-950
+}
+
+.inputErrorMessage{
+  @apply block text-sm text-yellow-400 pt-1
+}
+/* Tailwind input class ends */
