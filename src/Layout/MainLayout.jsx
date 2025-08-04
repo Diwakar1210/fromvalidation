@@ -5,7 +5,7 @@ import logo from '../assets/img/logo.png'
 const MainLayout = () => {
     const navigate = useNavigate();
     function handleLogout(e) {
-        sessionStorage.removeItem('Signupdata');
+        // sessionStorage.removeItem('Signupdata');
         e.preventDefault();
         navigate('/login');
         console.log('Logged out successfully');
@@ -19,6 +19,13 @@ const MainLayout = () => {
                         <img src={logo} alt="logo" className='w-[50px] rounded-full' />
                         <h3 className="text-3xl font-bold">Logo</h3>
                     </a>
+                    <ul>
+                        <li>
+                            <Link to={'/user'} className='block'>
+                                Users
+                            </Link>
+                        </li>
+                    </ul>
                 </nav>
                 {/* SideNav Ends */}
 

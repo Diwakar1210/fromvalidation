@@ -6,11 +6,9 @@ import AccountLayout from './Layout/AccountLayout'
 import MainLayout from './Layout/MainLayout'
 import Empty from './Components/Empty'
 import Protected from './Components/Protected'
-import { useState } from 'react'
+import User from "./Pages/User.jsx";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null)
-
   return (
     <Router>
       <Routes>
@@ -22,8 +20,10 @@ function App() {
         <Route element={< Protected />}>
           <Route element={<MainLayout />}>
             <Route path='/home' element={<HomePage />} />
+            <Route path={'/user'} element={<User />} />
           </Route>
         </Route>
+        <Route path='*' element={<Empty />} />
       </Routes>
     </Router>
   )
