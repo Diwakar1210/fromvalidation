@@ -62,7 +62,7 @@ ul,li,ol{
 }
 
 .inputField{
-  @apply w-full border border-solid border-gray-500 text-sm p-2 rounded-sm;
+  @apply w-full border border-solid border-gray-500 text-sm p-2 rounded-sm outline-none;
 }
 
 .inputSubmitBtn{

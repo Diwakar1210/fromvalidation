@@ -1,17 +1,19 @@
 import React from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import logo from '../assets/img/logo.png'
+import EditModal from '../Components/EditModal.jsx';
 
 const MainLayout = () => {
     const navigate = useNavigate();
     function handleLogout(e) {
-        // sessionStorage.removeItem('Signupdata');
+        sessionStorage.removeItem('Signupdata');
         e.preventDefault();
         navigate('/login');
         console.log('Logged out successfully');
     }
     return (
         <div className="page-wrapper">
+            <div className="overlay absolute h-full w-full bg-black opacity-50 hidden"></div>
             <div className="wrapper flex">
                 {/* SideNav Starts */}
                 <nav className="w-3xs h-screen bg-sky-600">
@@ -47,6 +49,7 @@ const MainLayout = () => {
                 </main>
                 {/* Main ends */}
             </div>
+            <EditModal/>
         </div>
     )
 }
